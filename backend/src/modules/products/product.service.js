@@ -23,9 +23,7 @@ const addLot = async (id, {loteProduto, quantidade, validade}) => {
 };
 
 const getAllExpiring = async () => {
-    const produtos = await productRepository.findExpiring(30);
-    if(!produtos.length) throw new AppError('Nenhum produto perto do vencimento.', 404);
-    return produtos;
+    return productRepository.findExpiring(30);
 }
 
 const removeProduct = async (id) => {

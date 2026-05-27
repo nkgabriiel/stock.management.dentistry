@@ -11,6 +11,11 @@ const routes = [
         name: 'Products',
         component: () => import('../views/ProductView.vue'),
         meta: {requiresAuth: true},
+    },
+    {
+        path: '/register',
+        name: 'Register',
+        component: () => import('../views/RegisterView.vue'),
     }
 ];
 

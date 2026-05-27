@@ -108,27 +108,29 @@ const handleLogin = async () => {
           <div class="flex items-center justify-between w-full">
             <div class="flex items-center gap-2">
               <input type="checkbox"
-              id="rememberMe"
-              class="w-4 h-4 cursor-pointer accent-black">
+                     id="rememberMe"
+                     class="w-4 h-4 cursor-pointer accent-black">
               <label for="rememberMe" class="text-sm text-gray-600 cursor-pointer">
                 Lembrar de mim
               </label>
             </div>
-                <a href="#" class="text-sm text-gray-600 underline hover:text-black">Esqueci a senha</a>
-
-
+            <a href="#" class="text-sm text-gray-600 underline hover:text-black">Esqueci a senha</a>
           </div>
-
           <div v-if="errorMessage" class="bg-red-50 border border-red-200 text-red-600 text-sm px-4 py-3 rounded-lg">
             {{ errorMessage }}
           </div>
-
           <button
               type="submit"
               :disabled="isLoading"
               class="bg-neutral-900 text-white py-3 rounded-lg text-sm font-semibold hover:bg-neutral-700 transition disabled:opacity-50">
             {{ isLoading ? 'Entrando...' : 'Entrar' }}
           </button>
+          <p class="text-center text-sm text-neutral-500 mt-4">
+            Ainda não tem conta?
+            <RouterLink to="/register" class="text-neutral-900 font-semibold hover:underline">
+              Cadastre-se
+            </RouterLink>
+          </p>
         </form>
       </div>
     </div>
