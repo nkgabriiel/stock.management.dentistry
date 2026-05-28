@@ -7,67 +7,116 @@ const isLoading = ref(false);
 const errorMessage = ref('');
 
 
-const showProducts = async () => {
-  errorMessage.value = '';
-  isLoading.value = true;
-
+onMounted(async () => {
+  isLoading.value = true
   try {
-    onMounted(async () => {
-      const response = await productService.getAll();
-      products.value = response.data;
-    });
+    const response = await productService.getAll()
+    products.value = response.data
   } catch (error) {
-    if (error.response && error.response.data?.message) {
-      errorMessage.value = error.response.data.message;
-    } else {
-      errorMessage.value = "Falha interna do servidor. Tente novamente.";
-    }
+    errorMessage.value = 'Falha ao carregar produtos.'
   } finally {
-    isLoading.value = true;
+    isLoading.value = false
   }
-}
+})
 </script>
 
 <template>
-  <nav class="flex items-center justify-between px-6 py-3 bg-white border-b border-gray-200">
+ <div>
+   <!-- Barra de navegação -->
+   <nav class="flex items-center justify-between px-6 py-3 sticky-top 0 border-b border-gray-200">
 
-    <div class="flex items-center gap-10">
+     <div class="flex items-center gap-10">
+       <div class="flex items-center gap-3">
+         <div class="flex items-center justify-center w-8 h-8">
+           <span>D</span>
+         </div>
+         <span>DentalEstoque</span>
+       </div>
+       <div class="flex items-center gap-6">
+         <a href="" class="">Produto</a>
+         <a href="" class="">Produto</a>
+         <a href="" class="">Produto</a>
+         <a href="" class="">Produto</a>
+         <a href="" class="">Produto</a>
+       </div>
+     </div>
 
-      <div class="flex items-center gap-3">
-        <div class="flex items-center justify-center w-8 h-8 text-sm font-bold text-white bg-gray-900 rounded-lg">
-          D
-        </div>
-        <span class="text-base font-bold text-gray-900">DentalEstoque</span>
+     <div class="flex items-center gap-4">
+       <div class="flex items-center border border-gray-300 rounded w-72 h-8 px-3">
+         <svg class="w-4 h-4 flex-shrink-0 text-gray-500" xmlns="http://www.w3.org/2000/svg" fill="none"
+              viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+           <path stroke-linecap="round" stroke-linejoin="round"
+                 d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"/>
+         </svg>
+         <input type="text"
+                placeholder="Buscar produto...."
+                class="flex-1 pl-3 outline-none">
+       </div>
+       <div class="flex items-center justify-center border border-gray-300 rounded-full h-9 w-9">
+         <span class="">DS</span>
+       </div>
+     </div>
+   </nav>
+
+   <!-- Header -->
+  <header class="flex flex-col px-6 py-3">
+    <div class="flex flex-row justify-between">
+      <div class="flex flex-col">
+        <span>Produtos</span>
+        <span>247 itens · 8 abaixo do mínimo · 14 vencendo</span>
       </div>
-
-      <div class="hidden md:flex items-center gap-6 text-sm font-medium">
-        <a href="#" class="text-gray-500 hover:text-gray-900 transition-colors">Painel</a>
-
-        <a href="#" class="pb-1 text-gray-900 border-b-2 border-gray-900">Produtos</a>
-
-        <a href="#" class="text-gray-500 hover:text-gray-900 transition-colors">Validade</a>
-        <a href="#" class="text-gray-500 hover:text-gray-900 transition-colors">Alertas</a>
-        <a href="#" class="text-gray-500 hover:text-gray-900 transition-colors">Relatórios</a>
+      <div class="flex items-center gap-2">
+        <button class="flex items-center border border-gray-300 rounded px-3 py-1 text-sm">Cards</button>
+        <button class="flex items-center border border-gray-300 rounded px-3 py-1 text-sm">Tabela</button>
+        <button class="flex items-center gap-1 bg-gray-900 text-white rounded px-3 py-3 text-sm">
+          + Novo produto
+        </button>
       </div>
     </div>
-
-    <div class="flex items-center gap-6">
-
-      <div class="relative hidden sm:block w-72">
-        <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-          <svg class="w-4 h-4 text-gray-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
-          </svg>
-        </div>
-        <input
-            type="text"
-            placeholder="Buscar produto, lote..."
-            class="w-full py-2 pl-10 pr-4 text-sm text-gray-900 bg-white border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-gray-900 focus:border-gray-900 placeholder-gray-400"
-        />
+    <div class="flex justify-between pt-4">
+      <div class="flex gap-2">
+        <span class="flex items-center px-2 rounded-full border border-gray-400 text-sm">Todos (247)</span>
+        <span class="flex items-center px-2 rounded-full border border-gray-400 text-sm">Anestésicos</span>
+        <span class="flex items-center px-2 rounded-full border border-gray-400 text-sm">EPI</span>
+        <span class="flex items-center px-2 rounded-full border border-gray-400 text-sm">Todos (247)</span>
+        <span class="flex items-center px-2 rounded-full border border-gray-400 text-sm">Todos (247)</span>
+        <span class="flex items-center px-2 rounded-full border border-gray-400 text-sm">Todos (247)</span>
+        <span class="flex items-center px-2 rounded-full border border-gray-400 text-sm">Todos (247)</span>
       </div>
-      <div class="flex items-center justify-center w-9 h-9 text-xs font-semibold text-gray-700 bg-white border border-gray-300 rounded-full cursor-pointer hover:bg-gray-50 transition-colors">
-        DS
+      <div class="flex gap-2">
+        <span class="flex rounded-full items-center px-2 border border-yellow-400">↓ Abaixo do mínimo (8)</span>
+        <span class="flex rounded-full items-center px-2 border border-yellow-400">↓ Abaixo do mínimo (8)</span>
       </div>
     </div>
-  </nav>
+  </header>
+
+  <main class="grid grid-cols-1 lg:grid-cols-4 gap-4 rounded px-6 py-3">
+    <div
+        v-for="product in products"
+        :key="product._id"
+        class="flex flex-col p-3 rounded border">
+        <div class="flex justify-center rounded py-6 border border-gray-900">
+            <span class="text-sm">Foto</span>
+        </div>
+      <div class="flex flex-col py-1 ">
+        <span class="text-md">{{ product.nome }}</span>
+        <span class="text-xs font-semibold text-gray-400">Analgésico</span>
+      </div>
+      <div class="flex flex-col">
+        <span class="font-bold text-red-500 text-2xl">{{ product.lote.reduce((acc, l) => acc + l.quantidade, 0) }}</span>
+        <div class="flex justify-between items-center">
+          <span class="text-xs text-gray-400 font-semibold">min 20 · tubete</span>
+          <span class="flex items-center border border-red-500 text-red-500 bg-red-50 text-sm rounded-full px-2">baixo</span>
+        </div>
+      </div>
+      <div class="flex border border-gray-200 rounded-full h-1.5 mt-3">
+      <span class="w-3/5 bg-red-500 h-1.5 rounded-full"></span>
+      </div>
+    </div>
+  </main>
+
+   <footer>
+
+   </footer>
+ </div>
 </template>
