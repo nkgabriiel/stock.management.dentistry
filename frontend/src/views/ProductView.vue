@@ -12,9 +12,10 @@ const categoria = ref('');
 const quantidade = ref('');
 const custo = ref('');
 const lote = ref('');
-const validade = ref(Date);
+const validade = ref('');
 const registrarProximo = ref(false);
 const erros = ref({});
+const quantidadeMinicial = ref('');
 
 
 const subtrairEstoque = async (product, lote) => {
@@ -168,21 +169,24 @@ onMounted(async () => {
       </template>
     </main>
 
-
     <footer></footer>
   </div>
   <div v-if="showModal" class="...overlay...">
     <div class="fixed inset-0 bg-black/50 flex items-center justify-center">
       <div class="flex flex-col p-4 rounded border border-gray-200 bg-white w-1/2">
-        <div class="flex flex-col">
-          <span>Novo Produto</span>
-          <span>Cadastre o item — você pode editar mais detalhes depois.</span>
-        </div>
-        <div class="flex flex-col">
-          <div>
-            <span>Imagem</span>
-          </div>
-          <div class="flex flex-col">
+       <div class="flex flex-row justify-between">
+         <div class="flex flex-col">
+           <span class="font-semibold text-lg">Novo Produto</span>
+           <span class="text-neutral-500 font-semibold text-sm pb-2">Cadastre o item — você pode editar mais detalhes depois.</span>
+         </div>
+         <div class="flex items-center justify-center p-4 w-1 h-1 font-semibold text-neutral-500 border border-gray-200 rounded">
+           <span>X</span>
+         </div>
+       </div>
+        <hr class="border-gray-200 -mx-4 my-2">
+        <div class="flex flex-col pt-1">
+          <div class=" flex flex-row gap-2">
+          <div class="flex flex-col w-4/5">
             <label for="nome" class="p-1 text-xs font-semibold text-neutral-500 uppercase tracking-wide">
               Nome do Produto
             </label>
@@ -193,30 +197,33 @@ onMounted(async () => {
                    required
                    class="border px-2 py-2 rounded border-gray-300">
           </div>
+          <div class="flex flex-col w-1/5">
+            <label for="quantidade"
+                   class="p-1 text-xs font-semibold text-neutral-500 uppercase tracking-wide">
+              Quantidade
+            </label>
+            <input type="number"
+                   id="quantidade"
+                   v-model="quantidade"
+                   required
+                   class="border px-2 py-2 rounded border-gray-300">
+          </div>
+          </div>
           <div class="flex flex-row gap-2">
-            <div class="flex flex-col w-3/5">
+            <div class="flex flex-col w-2/5">
               <label for="categoria"
                      class="p-1 text-xs font-semibold text-neutral-500 uppercase tracking-wide">
                 Categoria
               </label>
               <select name="categoria" id="categoria"
-                      class="border px-2 py-2 rounded border-gray-300">
-                <option disabled value="">Selecione...</option>
-                <option>A</option>
+                      class="border px-2 py-2 rounded border-gray-300 text-gray-300"
+              v-model="categoria">
+                <option value="" disabled >Selecione...</option>
+                <option>Anestésicos</option>
+                <option>EPI</option>
               </select>
             </div>
-            <div class="flex flex-col w-1/5">
-              <label for="quantidade"
-                     class="p-1 text-xs font-semibold text-neutral-500 uppercase tracking-wide">
-                Quantidade
-              </label>
-              <input type="number"
-                     id="quantidade"
-                     v-model="quantidade"
-                     required
-                     class="border px-2 py-2 rounded border-gray-300">
-            </div>
-            <div class="flex flex-col w-1/5">
+            <div class="flex flex-col w-3/10">
               <label for="custo"
                      class="p-1 text-xs font-semibold text-neutral-500 uppercase tracking-wide">
                 Custo Unitário
@@ -227,17 +234,58 @@ onMounted(async () => {
                      required
                      class="border px-2 py-2 rounded border-gray-300">
             </div>
+            <div class="flex flex-col w-3/10">
+              <label for="quantidadeMinima"
+              class="p-1 text-xs font-semibold text-neutral-500 uppercase tracking-wide">
+                Qtd. Minima
+              </label>
+              <input type="number"
+              id="quantidadeMinima"
+              v-model="quantidadeMinima"
+              required
+              class="border px-2 py-2 rounded border-gray-300">
+            </div>
           </div>
-          <div class="flex flex-row gap-2">
-            <span>Quantidade Inicial</span>
-            <span>Custo unitário</span>
+          <div class="flex flex-row gap-2 px-4 py-3 my-2 rounded bg-gray-50 border border-gray-200">
+            <div class="flex flex-col w-1/2">
+              <label for="lote"
+              class="p-1 text-xs font-semibold text-neutral-500 uppercase tracking-wide">
+                Lote
+              </label>
+              <input type="text"
+              id="lote"
+              v-model="lote"
+              required
+              class="border px-2 py-2 rounded border-gray-300">
+            </div>
+            <div class="flex flex-col w-1/2">
+              <label for="validade"
+              class="p-1 text-xs font-semibold text-neutral-500 uppercase tracking-wide">
+                Validade
+              </label>
+              <input type="text"
+              id="validade"
+              v-model="validade"
+              required
+              placeholder="MM/AAAA"
+              class="border px-2 py-2 rounded border-gray-300">
+            </div>
           </div>
-          <div class="flex flex-row gap-2">
-            <span>Lote:</span>
-            <span>Validade:</span>
-          </div>
-          <div>
-            <span>Cadastrar outro em seguida</span>
+          <hr class="border-gray-200 -mx-4 my-2">
+          <div class="flex flex-row justify-between mt-3">
+            <div class="flex items-center flex-row gap-1">
+              <input type="checkbox"
+              id="registrarProximo"
+              v-model="registrarProximo"
+              class="accent-black cursor-pointer">
+              <label for="registrarProximo"
+              class=" flex text-xs font-semibold text-neutral-500 uppercase tracking-wide">Cadastrar outro em seguida
+              </label>
+            </div>
+            <div class="flex flex-row gap-2">
+                <button class="flex items-center justify-center border border-gray-500 p-2 rounded">Cancelar</button>
+                <button class="bg-gray-900 text-white p-2 rounded">Salvar Produto</button>
+            </div>
           </div>
         </div>
       </div>
