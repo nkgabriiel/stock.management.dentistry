@@ -38,4 +38,12 @@ const findLoteAndSubtract = (id, lotId, quantidade) => {
     );
 };
 
-module.exports = {create, findAll, findById, findByName, update, softDelete, findExpiring, findLoteAndSubtract};
+const findLoteAndIncrement = (id, lotId, quantidade) => {
+    return Product.findOneAndUpdate(
+        {_id: id, 'lote._id': lotId },
+        {$inc: {'lote.$.quantidade': +quantidade} },
+        {new: true}
+    );
+}
+
+module.exports = {create, findAll, findById, findByName, update, softDelete, findExpiring, findLoteAndSubtract, findLoteAndIncrement};

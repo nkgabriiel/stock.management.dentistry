@@ -45,4 +45,14 @@ const subtractItem = async(id, lotId, quantidade) => {
     return productRepository.findLoteAndSubtract(id, lotId, quantidade);
 }
 
-module.exports = {create, getAll, addLot, getAllExpiring, removeProduct, subtractItem};
+const incrementProduct = async(id, lotId, quantidade) => {
+    const produto = await productRepository.findById(id);
+    if(!produto) throw new AppError('Produto não encontrado', 404);
+    const lote = produto.lote.id(lotId);
+    if(!lote) throw new AppError('Lote não encontrado', 404);
+
+    if(lote.validade < new Date()) throw new AppError('Lote vencido', 400);
+    return productRepository.findLoteAndIncrement(id, lotId, quantidade);
+}
+
+module.exports = {create, getAll, addLot, getAllExpiring, removeProduct, subtractItem, incrementProduct};

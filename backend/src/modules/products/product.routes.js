@@ -10,6 +10,7 @@ router.get('/products/expiring', verifyToken, productController.getExpiring);
 router.post('/products', verifyToken, productController.createProduct);
 router.post('/products/:id/lots', verifyToken, productController.addLot);
 router.post('/products/:id/lots/:lotId/exit', verifyToken, productController.subtractProduct);
+router.post('/products/:id/lots/:lotId/entry', verifyToken, productController.incrementProduct);
 
 //router.put('/products/:id', productController.update);
 

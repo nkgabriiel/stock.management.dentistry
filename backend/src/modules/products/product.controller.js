@@ -33,6 +33,13 @@ const subtractProduct = catchAsync(async (req, res) => {
     const { quantidade } = req.body;
     const products = await productService.subtractItem(id, lotId, quantidade);
     res.status(200).json(products);
+});
+
+const incrementProduct = catchAsync(async (req, res) => {
+    const { id, lotId } = req.params;
+    const { quantidade } = req.body;
+    const products = await productService.incrementProduct (id, lotId, quantidade);
+    res.status(200).json(products);
 })
 
-module.exports = { createProduct, getAllProducts, addLot, getExpiring, remove, subtractProduct};
+module.exports = { createProduct, getAllProducts, addLot, getExpiring, remove, subtractProduct, incrementProduct};
