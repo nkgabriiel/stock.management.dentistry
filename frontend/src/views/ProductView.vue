@@ -14,23 +14,26 @@ const custo = ref('');
 const lote = ref('');
 const validade = ref(Date);
 const registrarProximo = ref(false);
+const erros = ref({});
 
 
 const subtrairEstoque = async (product, lote) => {
   try {
+    erros.value[lote._id] = ''
     await productService.subtractLot(product._id, lote._id, { quantidade: 1 })
     lote.quantidade -= 1
   } catch (error) {
-    alert(error.response?.data?.error || 'Erro ao subtrair estoque.')
+    erros.value[lote._id] = error.response?.data?.error || 'Erro ao subtrair estoque.'
   }
 }
 
 const aumentarEstoque = async(product, lote) => {
   try {
+    erros.value[lote._id] = ''
     await productService.incrementLot(product._id, lote._id, { quantidade: 1 });
     lote.quantidade += 1;
   } catch (error) {
-    alert(error.response?.data?.error || 'Erro ao aumentar estoque.');
+    erros.value[lote._id] = error.response?.data?.error || 'Erro ao incrementar estoque.'
   }
 }
 
@@ -145,6 +148,9 @@ onMounted(async () => {
           </div>
           <div class="flex border border-gray-200 rounded-full h-1.5 mt-3">
             <span class="w-3/5 bg-red-500 h-1.5 rounded-full"></span>
+          </div>
+          <div v-if="erros[lote._id]">
+            <span  class="text-red-500 text-xs text-center-mt-2">{{ erros[lote._id] }}</span>
           </div>
           <div class="flex flex-row gap-2 px-3 py-3">
             <button
