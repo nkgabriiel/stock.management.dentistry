@@ -9,8 +9,8 @@ const showModal = ref(false);
 
 const nome = ref('');
 const categoria = ref('');
-const quantidade = ref('');
-const custo = ref('');
+const quantidade = ref(0);
+const custo = ref(0);
 const lote = ref('');
 const validade = ref('');
 const registrarProximo = ref(false);
@@ -24,7 +24,7 @@ const subtrairEstoque = async (product, lote) => {
     await productService.subtractLot(product._id, lote._id, { quantidade: 1 })
     lote.quantidade -= 1
   } catch (error) {
-    erros.value[lote._id] = error.response?.data?.error || 'Erro ao subtrair estoque.'
+    erros.value[lote._id] = error.response?.data?.message || 'Erro ao subtrair estoque.'
   }
 }
 
@@ -34,7 +34,7 @@ const aumentarEstoque = async(product, lote) => {
     await productService.incrementLot(product._id, lote._id, { quantidade: 1 });
     lote.quantidade += 1;
   } catch (error) {
-    erros.value[lote._id] = error.response?.data?.error || 'Erro ao incrementar estoque.'
+    erros.value[lote._id] = error.response?.data?.message || 'Erro ao incrementar estoque.'
   }
 }
 
@@ -179,7 +179,7 @@ onMounted(async () => {
            <span class="font-semibold text-lg">Novo Produto</span>
            <span class="text-neutral-500 font-semibold text-sm pb-2">Cadastre o item — você pode editar mais detalhes depois.</span>
          </div>
-         <div class="flex items-center justify-center p-4 w-1 h-1 font-semibold text-neutral-500 border border-gray-200 rounded">
+         <div @click="showModal = false" class="flex items-center justify-center p-4 w-1 h-1 font-semibold text-neutral-500 border border-gray-200 rounded">
            <span>X</span>
          </div>
        </div>
@@ -283,7 +283,7 @@ onMounted(async () => {
               </label>
             </div>
             <div class="flex flex-row gap-2">
-                <button class="flex items-center justify-center border border-gray-500 p-2 rounded">Cancelar</button>
+                <button @click="showModal = false" class="flex items-center justify-center border border-gray-500 p-2 rounded">Cancelar</button>
                 <button class="bg-gray-900 text-white p-2 rounded">Salvar Produto</button>
             </div>
           </div>
